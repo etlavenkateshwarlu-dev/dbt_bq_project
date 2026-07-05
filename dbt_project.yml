@@ -35,13 +35,21 @@ clean-targets:         # directories to be removed by `dbt clean`
 # continue to be built as views. These settings can be overridden in the individual model files
 # using the `{{ config(...) }}` macro.
 
+on-run-start: "insert into `vctbatch-9916-500703.raw_jaffle_shop.dbt_audits` (audit_type) values ('Run_start')"
+on-run-end: "insert into `vctbatch-9916-500703.raw_jaffle_shop.dbt_audits` (audit_type) values ('Run_end')"
+
 models:
   dbt_bq_project:
     # Applies to all files under models/example/
+
     staging:
+      +pre-hook: "insert into `vctbatch-9916-500703.raw_jaffle_shop.dbt_audits` (audit_type) values ('staging_model_start')"
+      +post-hook: "insert into `vctbatch-9916-500703.raw_jaffle_shop.dbt_audits` (audit_type) values ('staging__model_end')" 
       +schema: silver
       +materialized: table
     gold:
+      +pre-hook: "insert into `vctbatch-9916-500703.raw_jaffle_shop.dbt_audits` (audit_type) values ('gold_model_start')"
+      +post-hook: "insert into `vctbatch-9916-500703.raw_jaffle_shop.dbt_audits` (audit_type) values ('gold__model_end')" 
       +schema: analytics
       +materialized: table
 

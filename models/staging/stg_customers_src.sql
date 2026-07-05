@@ -1,4 +1,4 @@
-{{ config(materialized='view') }}
+{{ config(materialized='table') }}
 
 SELECT
 
@@ -8,4 +8,4 @@ SELECT
 
     TRIM(last_name) AS last_name
 
-FROM `vctbatch-9916-500703.raw_jaffle_shop.customers`
+FROM {{ source('staging', 'customers') }}

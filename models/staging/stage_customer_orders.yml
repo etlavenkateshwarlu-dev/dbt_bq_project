@@ -1,0 +1,33 @@
+models:
+  - name: stg_customers
+    description: customer staging table which will tore customer dtaa
+    columns:
+      - name: customer_id
+        description: customer id 
+        tests:
+          - unique
+          - not_null
+  - name: stg_orders
+    description: order details table 
+    columns:
+      - name: order_id
+        tests:
+         - unique
+         - not_null
+      - name: order_status
+        description: "{{ doc('order_status')}}"
+        tests:
+          - accepted_values:
+              arguments:
+               values:
+                  - completed
+                  - shipped
+                  - returned
+                  - return_pending
+                  - placed
+      - name: customer_id
+        tests:
+          - relationships:
+              arguments: 
+                to: ref('stg_customers')
+                field: customer_id

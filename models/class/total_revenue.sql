@@ -1,3 +1,7 @@
+select orderid, sum(amount) as toatal_amount
+from `vctbatch-9916-500703.raw_stripe.payment`
+group by orderid
 
-SELECT  ORDERID,sum(AMOUNT) as toatal_amount 
-FROM `vctbatch-9916-500703.raw_stripe.payment` group by ORDERID
+select * from {{ref('tickets')}}
+
+select * from {{ref('snapshot_tickets_check')}} order by ticket_id asc 
