@@ -7,7 +7,8 @@
     Try changing "table" to "view" below
 */
 
-{{ config(materialized='table') }}
+{{ config(materialized='view') }}
+{{ config(schema='staging' , alias='first_table')}}
 
 with source_data as (
 
